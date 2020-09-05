@@ -26,7 +26,7 @@ ThermalReader::ThermalReader(std::string zone0, std::string zone1)
     }
 }
 
-int get_temperature_from_file(const std::string &path)
+int ThermalReader::get_temperature_from_file(const std::string &path)
 {
     std::string line;
     std::ifstream file(path);
