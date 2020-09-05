@@ -1,6 +1,6 @@
 #include <math.h>
-#include "fan.hpp"
 #include <iostream>
+#include <fan.hpp>
 
 FanControl::FanControl(int start_fan_temp, int continious_fan_temp, int fan_start_pwm, int fan_max_pwm)
 {

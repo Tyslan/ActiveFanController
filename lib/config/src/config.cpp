@@ -1,8 +1,7 @@
 #include <fstream>
-//#include <nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 
-#include "config.hpp"
-#include "json.hpp"
+#include <config.hpp>
 
 Config::Config(std::string config_path)
 {

@@ -4,7 +4,7 @@ if [ ! -d "build" ]; then
 fi
 
 cd build
-cmake ../src
+cmake ..
 cmake --build .
 
-echo "ActiveFanControl is available in the build folder."
+echo "ActiveFanControl is available in the build folder './build/app'."

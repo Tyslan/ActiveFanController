@@ -1,18 +1,13 @@
 #include <fstream>
 #include <string>
-#include <sys/stat.h>
 
-#include "pwm.hpp"
+#include <file/inc/file_util.hpp>
 
-bool file_exists(const std::string &name)
-{
-    struct stat buffer;
-    return (stat(name.c_str(), &buffer) == 0);
-}
+#include <pwm.hpp>
 
 PwmWriter::PwmWriter(std::string path_pwm, int pwm_fan_jump, int pwm_max)
 {
-    if (file_exists(path_pwm))
+    if (exists(path_pwm))
     {
         path = path_pwm;
     }

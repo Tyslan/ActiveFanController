@@ -1,14 +1,9 @@
 #include <fstream>
 #include <string>
-#include <sys/stat.h>
 
-#include "thermal.hpp"
+#include <file/inc/file_util.hpp>
 
-bool exists(const std::string &name)
-{
-    struct stat buffer;
-    return (stat(name.c_str(), &buffer) == 0);
-}
+#include <thermal.hpp>
 
 ThermalReader::ThermalReader(std::string zone0, std::string zone1)
 {

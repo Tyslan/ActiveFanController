@@ -1,1 +1,0 @@
-add_library(thermal thermal.hpp thermal.cpp)

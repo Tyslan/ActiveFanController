@@ -2,10 +2,10 @@
 #include <thread> // std::this_thread::sleep_for
 #include <chrono> // std::chrono::seconds
 
-#include "config.hpp"
-#include "thermal.hpp"
-#include "pwm.hpp"
-#include "fan.hpp"
+#include <config/inc/config.hpp>
+#include <thermal/inc/thermal.hpp>
+#include <fan/inc/fan.hpp>
+#include <pwm/inc/pwm.hpp>
 
 int main(int argc, char *argv[])
 {

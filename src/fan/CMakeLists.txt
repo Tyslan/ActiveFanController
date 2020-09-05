@@ -1,1 +1,0 @@
-add_library(fan fan.hpp fan.cpp)
