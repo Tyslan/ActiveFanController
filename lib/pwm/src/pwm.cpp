@@ -19,7 +19,7 @@ PwmWriter::PwmWriter(std::string path_pwm, int pwm_fan_jump, int pwm_max)
     max = pwm_max;
 }
 
-void write(std::string path, int value)
+void PwmWriter::write(std::string path, int value)
 {
     std::ofstream pwm(path);
     pwm << value;
@@ -28,6 +28,10 @@ void write(std::string path, int value)
 
 void PwmWriter::setPwm(int value)
 {
+    if (previous_pwm == value)
+    {
+        return;
+    }
     if (value < fan_jump)
     {
         write(path, min);
@@ -40,4 +44,5 @@ void PwmWriter::setPwm(int value)
     {
         write(path, value);
     }
+    previous_pwm = value;
 }
