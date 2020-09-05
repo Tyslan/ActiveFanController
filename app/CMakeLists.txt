@@ -1,11 +1,11 @@
-project(ActiveFanController)
+project(afc)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../lib)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src ActiveFanController_SOURCES)
 
-add_executable(ActiveFanController fan_controller.cpp)
+add_executable(afc fan_controller.cpp)
 
-add_dependencies(ActiveFanController config thermal fan pwm)
-target_link_libraries(ActiveFanController config thermal fan pwm)
+add_dependencies(afc config thermal fan pwm)
+target_link_libraries(afc config thermal fan pwm)
 
-install(TARGETS ActiveFanController RUNTIME DESTINATION bin ARCHIVE DESTINATION bin)
+install(TARGETS afc RUNTIME DESTINATION bin ARCHIVE DESTINATION bin)

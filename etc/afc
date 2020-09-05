@@ -1,0 +1,9 @@
+{  
+        "temp_zone0_path": "/sys/devices/virtual/thermal/thermal_zone0/temp",   
+        "temp_zone1_path": "/sys/devices/virtual/thermal/thermal_zone0/temp",   
+        "pwm_path": "/sys/devices/platform/pwm-fan/hwmon/hwmon3/pwm1",
+        "pwm_fan_jump": 50,
+        "pwm_max": 255,
+        "start_fan_temp": 35,
+        "continious_fan_temp":60
+} 
