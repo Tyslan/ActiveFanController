@@ -1,5 +1,6 @@
 #include <fstream>
 #include <string>
+#include <syslog.h>
 
 #include <file/inc/file_util.hpp>
 
@@ -13,20 +14,23 @@ PwmWriter::PwmWriter(std::string path_pwm, int pwm_fan_jump, int pwm_max)
     }
     else
     {
+        syslog(LOG_CRIT, "File for zone0 doesn't exists: %s", path_pwm.c_str());
         throw "File for pwm doesn't exists";
     }
     fan_jump = pwm_fan_jump;
     max = pwm_max;
+    syslog(LOG_INFO, "Pwm Writer started.");
 }
 
-void PwmWriter::write(std::string path, int value)
+void PwmWriter::write(const int &value)
 {
     std::ofstream pwm(path);
     pwm << value;
     pwm.close();
+    syslog(LOG_INFO, "Written value %d", value);
 }
 
-void PwmWriter::setPwm(int value)
+void PwmWriter::setPwm(const int &value)
 {
     if (previous_pwm == value)
     {
@@ -34,15 +38,15 @@ void PwmWriter::setPwm(int value)
     }
     if (value < fan_jump)
     {
-        write(path, min);
+        write(min);
     }
     else if (value > max)
     {
-        write(path, max);
+        write(max);
     }
     else
     {
-        write(path, value);
+        write(value);
     }
     previous_pwm = value;
 }

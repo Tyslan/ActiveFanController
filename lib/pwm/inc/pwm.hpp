@@ -10,8 +10,8 @@ class PwmWriter
 
 public:
     PwmWriter(std::string path_pwm, int pwm_fan_jump, int pwm_max);
-    void setPwm(int value);
+    void setPwm(const int &value);
 
 private:
-    void write(std::string path, int value);
+    void write(const int &value);
 };

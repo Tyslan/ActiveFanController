@@ -10,5 +10,5 @@ class FanControl
 
 public:
     FanControl(int start_fan_temp, int continious_fan_temp, int fan_start_pwm, int fan_max_pwm);
-    int calculate_needed_pwm(const int &current_temp);
+    int calculate_needed_pwm(const double &current_temp);
 };

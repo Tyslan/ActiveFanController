@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread> // std::this_thread::sleep_for
 #include <chrono> // std::chrono::seconds
+#include <syslog.h>
 
 #include <config/inc/config.hpp>
 #include <thermal/inc/thermal.hpp>
@@ -19,6 +20,11 @@ int main(int argc, char *argv[])
       path = argv[1];
    }
 
+   //Set our Logging Mask and open the Log
+   setlogmask(LOG_UPTO(LOG_DEBUG));
+   openlog("active-fan-control", LOG_CONS | LOG_NDELAY | LOG_PERROR | LOG_PID, LOG_USER);
+   syslog(LOG_NOTICE, "Starting Active Fan Control");
+
    Config config(path);
 
    ThermalReader thermal_reader(config.get_path_temp_zone0(), config.get_path_temp_zone1());
@@ -27,11 +33,12 @@ int main(int argc, char *argv[])
 
    while (true)
    {
-      int temp = thermal_reader.get_temperature();
-
+      double temp = thermal_reader.get_temperature();
       int pwm = fan_control.calculate_needed_pwm(temp);
       pwm_writer.setPwm(pwm);
-      std::cout << "Temp: " << temp << ", Pwm: " << pwm << "\n";
+      syslog(LOG_DEBUG, "Temp: %.2f, pwm: %d", temp, pwm);
       std::this_thread::sleep_for(std::chrono::seconds(1));
    }
+   syslog(LOG_NOTICE, "Stopping Active Fan Control");
+   closelog();
 }
