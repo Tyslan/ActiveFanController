@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
    std::string path;
    if (argc == 1)
    {
-      path = "/etc/afc";
+      path = "/etc/afc.conf";
    }
    if (argc == 2)
    {
@@ -92,9 +92,10 @@ int main(int argc, char *argv[])
       {
          double temp = thermal_reader.get_temperature();
          int pwm = fan_control.calculate_needed_pwm(temp);
+         int timeout = fan_control.calculate_timeout();
          pwm_writer.setPwm(pwm);
          syslog(LOG_DEBUG, "Temp: %.2f, pwm: %d", temp, pwm);
-         std::this_thread::sleep_for(std::chrono::seconds(1));
+         std::this_thread::sleep_for(std::chrono::seconds(timeout));
       }
    }
 

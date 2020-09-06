@@ -21,7 +21,23 @@ or
 
 The default conf path is /etc/afc.
 
-### Config
+## Install as a service
+
+After building the program, from inside the root folder of the project:
+
+> sudo cp ./build/app/afc /usr/local/sbin/afc
+> sudo cp etc/afc.conf /etc/afc.conf
+> sudo cp systemd/afc.service /etc/systemd/system/afc.service
+
+Now everything is in place to start the service:
+
+> sudo systemctl start afc
+
+And check status with:
+
+> sudo systemctl status afc
+
+## Config
 
 ```json
 {  

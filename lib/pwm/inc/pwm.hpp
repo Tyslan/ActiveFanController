@@ -13,5 +13,6 @@ public:
     void setPwm(const int &value);
 
 private:
+    int get_initial_pwm();
     void write(const int &value);
 };

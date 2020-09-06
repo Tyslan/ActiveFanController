@@ -10,18 +10,7 @@ FanControl::FanControl(int start_fan_temp, int continious_fan_temp, int fan_star
     _fan_start_pwm = fan_start_pwm;
     _fan_max_pwm = fan_max_pwm;
 
-    syslog(LOG_DEBUG, "Initializing ratio's");
-    for (int i = _start_fan_temp; i < _continious_fan_temp; i++)
-    {
-        int temperature_range = _continious_fan_temp - _start_fan_temp;
-        double temperature_ratio = (i - _start_fan_temp) / (double)temperature_range;
-
-        int pwm_range = _fan_max_pwm - _fan_start_pwm;
-        double offset_pwm = temperature_ratio * pwm_range;
-        int pwm = (int)std::round(offset_pwm) + _fan_start_pwm;
-        _lookup.insert(std::make_pair(i, pwm));
-        syslog(LOG_DEBUG, "Temp: %d, pwm: %d", i, pwm);
-    }
+    initialize_temp_pwm_map();
 }
 
 int FanControl::calculate_needed_pwm(const double &current_temp)
@@ -36,4 +25,25 @@ int FanControl::calculate_needed_pwm(const double &current_temp)
         return _fan_max_pwm;
     }
     return _lookup[temp];
+}
+
+int FanControl::calculate_timeout()
+{
+    return 5;
+}
+
+void FanControl::initialize_temp_pwm_map()
+{
+    syslog(LOG_DEBUG, "Initializing ratio's");
+    for (int i = _start_fan_temp; i < _continious_fan_temp; i++)
+    {
+        int temperature_range = _continious_fan_temp - _start_fan_temp;
+        double temperature_ratio = (i - _start_fan_temp) / (double)temperature_range;
+
+        int pwm_range = _fan_max_pwm - _fan_start_pwm;
+        double offset_pwm = temperature_ratio * pwm_range;
+        int pwm = (int)std::round(offset_pwm) + _fan_start_pwm;
+        _lookup.insert(std::make_pair(i, pwm));
+        syslog(LOG_DEBUG, "Temp: %d, pwm: %d", i, pwm);
+    }
 }

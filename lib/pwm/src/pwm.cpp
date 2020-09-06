@@ -19,7 +19,20 @@ PwmWriter::PwmWriter(std::string path_pwm, int pwm_fan_jump, int pwm_max)
     }
     fan_jump = pwm_fan_jump;
     max = pwm_max;
+    previous_pwm = get_initial_pwm();
     syslog(LOG_INFO, "Pwm Writer started.");
+}
+
+int PwmWriter::get_initial_pwm()
+{
+    std::string line;
+    std::ifstream file(path);
+    if (file.good())
+    {
+        getline(file, line);
+        return std::stoi(line);
+    }
+    return 0;
 }
 
 void PwmWriter::write(const int &value)
