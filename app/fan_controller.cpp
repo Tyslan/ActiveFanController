@@ -2,14 +2,28 @@
 #include <thread> // std::this_thread::sleep_for
 #include <chrono> // std::chrono::seconds
 #include <syslog.h>
+#include <signal.h>
 
 #include <config/inc/config.hpp>
 #include <thermal/inc/thermal.hpp>
 #include <fan/inc/fan.hpp>
 #include <pwm/inc/pwm.hpp>
 
+volatile sig_atomic_t stop_flag = 0;
+
+void set_stop_flag(int sig)
+{
+   syslog(LOG_DEBUG, "Received sig %d", sig);
+   stop_flag = 1;
+   syslog(LOG_DEBUG, "Set stop flag to %d", stop_flag);
+}
+
 int main(int argc, char *argv[])
 {
+   signal(SIGINT, set_stop_flag);
+   signal(SIGTERM, set_stop_flag);
+   signal(SIGKILL, set_stop_flag);
+
    std::string path;
    if (argc == 1)
    {
@@ -31,14 +45,26 @@ int main(int argc, char *argv[])
    FanControl fan_control(config.get_start_fan_temp(), config.get_continious_fan_temp(), config.get_fan_jump_pwm(), config.get_upper_limit_pwm());
    PwmWriter pwm_writer(config.get_path_pwm(), config.get_fan_jump_pwm(), config.get_upper_limit_pwm());
 
-   while (true)
+   bool running = true;
+
+   while (running)
    {
-      double temp = thermal_reader.get_temperature();
-      int pwm = fan_control.calculate_needed_pwm(temp);
-      pwm_writer.setPwm(pwm);
-      syslog(LOG_DEBUG, "Temp: %.2f, pwm: %d", temp, pwm);
-      std::this_thread::sleep_for(std::chrono::seconds(1));
+      if (stop_flag)
+      {
+         syslog(LOG_INFO, "Received stop signal");
+         running = false;
+         syslog(LOG_DEBUG, "Set running to %d", running);
+      }
+      {
+         double temp = thermal_reader.get_temperature();
+         int pwm = fan_control.calculate_needed_pwm(temp);
+         pwm_writer.setPwm(pwm);
+         syslog(LOG_DEBUG, "Temp: %.2f, pwm: %d", temp, pwm);
+         std::this_thread::sleep_for(std::chrono::seconds(1));
+      }
    }
+
    syslog(LOG_NOTICE, "Stopping Active Fan Control");
    closelog();
+   return 0;
 }
