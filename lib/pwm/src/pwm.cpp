@@ -14,7 +14,7 @@ PwmWriter::PwmWriter(std::string path_pwm, int pwm_fan_jump, int pwm_max)
     }
     else
     {
-        syslog(LOG_CRIT, "File for zone0 doesn't exists: %s", path_pwm.c_str());
+        syslog(LOG_CRIT, "File doesn't exists: %s", path_pwm.c_str());
         throw "File for pwm doesn't exists";
     }
     fan_jump = pwm_fan_jump;

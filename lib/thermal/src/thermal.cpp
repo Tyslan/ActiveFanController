@@ -14,7 +14,7 @@ ThermalReader::ThermalReader(std::string zone0, std::string zone1)
     }
     else
     {
-        syslog(LOG_CRIT, "File for zone0 doesn't exists: %s", zone0.c_str());
+        syslog(LOG_CRIT, "File doesn't exists: %s", zone0.c_str());
         throw "File for zone0 doesn't exists";
     }
 
@@ -24,7 +24,7 @@ ThermalReader::ThermalReader(std::string zone0, std::string zone1)
     }
     else
     {
-        syslog(LOG_CRIT, "File for zone0 doesn't exists: %s", zone1.c_str());
+        syslog(LOG_CRIT, "File doesn't exists: %s", zone1.c_str());
         throw "File for zone1 doesn't exists";
     }
     syslog(LOG_INFO, "Thermal Reader started.");

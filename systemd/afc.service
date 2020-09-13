@@ -1,5 +1,5 @@
 [Unit]
-Description=ATS - Active Fan Controller
+Description=AFC - Active Fan Controller
 After=local-fs.target
 StartLimitIntervalSec=0
 
