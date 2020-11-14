@@ -4,7 +4,8 @@ class Config
 {
     std::string zone0;
     std::string zone1;
-    std::string pwm;
+    std::string pwm_folder;
+    std::string pwm_file;
     int pwm_fan_jump;
     int pwm_upper;
     int start_fan_temp;

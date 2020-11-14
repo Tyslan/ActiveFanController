@@ -76,8 +76,11 @@ int main(int argc, char *argv[])
    Config config(path);
 
    ThermalReader thermal_reader(config.get_path_temp_zone0(), config.get_path_temp_zone1());
+   syslog(LOG_DEBUG, "Created Thermal Reader");
    FanControl fan_control(config.get_start_fan_temp(), config.get_continious_fan_temp(), config.get_fan_jump_pwm(), config.get_upper_limit_pwm());
+   syslog(LOG_DEBUG, "Created Fan Control");
    PwmWriter pwm_writer(config.get_path_pwm(), config.get_fan_jump_pwm(), config.get_upper_limit_pwm());
+   syslog(LOG_DEBUG, "Created Pwm Writer");
 
    bool running = create_lock();
 
