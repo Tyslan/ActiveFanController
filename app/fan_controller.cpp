@@ -102,6 +102,8 @@ int main(int argc, char *argv[])
       }
    }
 
+   syslog(LOG_NOTICE, "Put original pwm back in place.");
+   pwm_writer.close();
    release_lock();
    syslog(LOG_NOTICE, "Stopping Active Fan Control");
    closelog();
